@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Story</title>
+    <style>
+        /* Color palette variables for easy customization */
+        :root {
+            --primary: #ff85a2;      /* Main pink */
+            --secondary: #ffc0cb;    /* Light pink */
+            --accent: #ff5a8c;       /* Bright pink for highlights */
+            --light: #fff0f3;        /* Background color */
+            --dark: #453545;         /* Text color */
+            --mint: #c7f0db;         /* Mint accent */
+            --lavender: #e0c3fc;     /* Lavender accent */
+        }
+        
+        /* Reset default browser styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Base body styles */
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        /* Header styling with gradient background */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--lavender));
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 20px rgba(255, 133, 162, 0.3);
+        }
+        
+        /* Main heading style */
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Secondary heading style */
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        /* Subtitle text style */
+        .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Timeline container with vertical line */
+        .timeline {
+            position: relative;
+            margin: 3rem 0;
+        }
+        
+        /* Vertical timeline line */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--secondary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 10px;
+        }
+        
+        /* Memory card styling */
+        .memory {
+            padding: 1.5rem;
+            position: relative;
+            background-color: white;
+            width: 45%;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        /* Hover effect for memory cards */
+        .memory:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 133, 162, 0.3);
+        }
+        
+        /* Timeline dot on the center line */
+        .memory::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            top: 20px;
+            z-index: 1;
+        }
+        
+        /* Positions memory cards on the left side */
+        .left {
+            left: 0;
+        }
+        
+        /* Positions memory cards on the right side */
+        .right {
+            left: 55%;
+        }
+        
+        /* Position for timeline dot on left cards */
+        .left::after {
+            right: -12px;
+        }
+        
+        /* Position for timeline dot on right cards */
+        .right::after {
+            left: -12px;
+        }
+        
+        /* Date display styling */
+        .date {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Memory title styling */
+        .memory-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        /* Memory description text styling */
+        .memory-content {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        /* Memory image styling */
+        .memory-img {
+            width: 100%;
+            border-radius: 10px;
+            margin: 1rem 0;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Hover effect for images */
+        .memory-img:hover {
+            transform: scale(1.03);
+        }
+        
+        /* Hidden love note styling */
+        .love-note {
+            background-color: var(--lavender);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            position: relative;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        /* Show love note on image or memory card hover */
+        .memory-img:hover + .love-note,
+        .memory:hover .love-note {
+            opacity: 1;
+            height: auto;
+            padding: 1rem 1rem 1rem 1rem;
+            margin-top: 1rem;
+        }
+        
+        /* Heart icon decoration for love notes */
+        .love-note::before {
+            content: '❤️';
+            position: absolute;
+            top: -1px;
+            left: 10px;
+            font-size: 1.2rem;
+        }
+        
+        /* Love note text padding */
+        .love-note p {
+            padding-top: 15px;
+        }
+        
+        /* Playlist section styling */
+        .playlist {
+            background: linear-gradient(135deg, var(--mint), var(--lavender));
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 3rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Grid layout for songs */
+        .songs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        /* Individual song card styling */
+        .song {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* Hover effect for song cards */
+        .song:hover {
+            transform: translateY(-5px) rotate(2deg);
+            box-shadow: 0 10px 15px rgba(255, 133, 162, 0.3);
+        }
+        
+        /* Song title styling */
+        .song-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Song artist styling */
+        .song-artist {
+            color: var(--dark);
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Future message section styling */
+        .future-message {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 3rem;
+            border-radius: 15px;
+            margin: 3rem 0;
+            color: white;
+            position: relative;
+            box-shadow: 0 8px 30px rgba(255, 133, 162, 0.5);
+        }
+        
+        /* Future message text styling */
+        .future-message p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        /* Decorative hearts styling */
+        .heart-decoration {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        /* Animation for floating hearts */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Individual heart positions */
+        .heart-1 {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .heart-2 {
+            top: 20%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+        
+        .heart-3 {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 2s;
+        }
+        
+        /* Footer styling */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 30px 30px 0 0;
+            margin-top: 4rem;
+        }
+        
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(255, 90, 140, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        /* Button hover effect */
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 90, 140, 0.5);
+        }
+        
+        /* Responsive design for mobile devices */
+        @media (max-width: 768px) {
+            /* Adjust timeline for mobile */
+            .timeline::before {
+                left: 20px;
+            }
+            
+            /* Adjust memory cards for mobile */
+            .memory {
+                width: 85%;
+                left: 0;
+                margin-left: 50px;
+            }
+            
+            /* Adjust timeline dots for mobile */
+            .memory::after {
+                left: -40px;
+            }
+            
+            .left::after, .right::after {
+                left: -40px;
+            }
+            
+            /* Move right cards to the left on mobile */
+            .right {
+                left: 0;
+            }
+            
+            /* Adjust heading size for mobile */
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            /* Hide decorative hearts on mobile */
+            .heart-decoration {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Site Header -->
+    <header>
+        <h1>Our Love Story</h1>
+        <p class="subtitle">A timeline of our journey together</p>
+        <p>Miss You, My Love! ❤️</p>
+    </header>
+    
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Timeline Section -->
+        <div class="timeline">
+            <!-- Memory 1 - You can customize each memory card with your own content -->
+            <div class="memory left">
+                <div class="date"></div>
+                <h3 class="memory-title">Te iubesc. Je t'aime. Ti amo. I love you.</h3>
+                <div class="memory-content">
+                   <!-- <p>I still remember the first time I saw you at the coffee shop. You were reading your favorite book, and I knew I had to talk to you.</p>-->
+                </div>
+                <!-- Image Source: Replace with your own GitHub repository URL -->
+                <!-- Example: src="https://raw.githubusercontent.com/yourusername/anniversary-photos/main/coffee-shop.jpg" -->
+                <img src="https://raw.githubusercontent.com/Zarniiiiiiiii/AnniePoze/master/158270057_1653736278160215_6217422887578313192_n.jpg" 
+                     alt="The day we met" 
+                     class="memory-img"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x320?text=Our+Love+Story';" />
+                <div class="love-note">
+                    <p> La mulți ani, dragostea mea! ❤️ 5 ani de zâmbete, îmbrățișări și momente frumoase alături de tine. Fiecare zi alături de tine este o poveste de vis. Te iubesc nespus! </p>
+                </div>
+            </div>
+            
+            <!-- Memory 2 -->
+            <div class="memory right">
+                <div class="date"></div>
+                <h3 class="memory-title">In  this perfect, fleeting moment, my heart belongs completely to you.</h3>
+                <div class="memory-content">
+                  <!--  //<p>We went to that little Italian restaurant downtown. You wore that beautiful blue dress, and we talked for hours about our dreams.</p>-->
+                </div>
+                <!-- Replace with your own GitHub image -->
+                <img src="https://raw.githubusercontent.com/Zarniiiiiiiii/AnniePoze/master/240536256_472939960562424_6540204760508883008_n.jpg" 
+                     alt="Our first date" 
+                     class="memory-img"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x320?text=Our+Love+Story';" />
+                <div class="love-note">
+                    <p> 5 ani de fericire, 5 ani de iubire, 5 ani în care inima mea ți-a aparținut. Mulțumesc pentru tot, iubirea mea! Să fim mereu alături, acum și pentru totdeauna. ❤️</p>
+                </div>
+            </div>
+            
+            <!-- Memory 3 -->
+            <div class="memory left">
+                <div class="date"></div>
+                <h3 class="memory-title">With every breath, I love you more than ever before</h3>
+                <div class="memory-content">
+                  <!--  <p>Remember that spontaneous road trip to the coast? We watched the sunset and wrote our names in the sand. It was perfect.</p>-->
+                </div>
+                <!-- Replace with your own GitHub image -->
+                <img src="https://raw.githubusercontent.com/Zarniiiiiiiii/AnniePoze/master/269995962_3194223244195997_4469772413363409568_n.jpg" 
+                     alt="Beach trip" 
+                     class="memory-img"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x320?text=Our+Love+Story';" />
+                <div class="love-note">
+                    <p> Cinci ani au trecut de când lumea mea s-a colorat cu fericirea ta. Ești tot ce am visat vreodată și mult mai mult. La mulți ani de iubire, sufletul meu! 🥰 </p>
+                </div>
+            </div>
+            
+            <!-- Memory 4 -->
+            <div class="memory right">
+                <div class="date"></div>
+                <h3 class="memory-title">Te iubesc cu toată ființa mea.</h3>
+                <div class="memory-content">
+                   <!-- <p>Te vreau FERICITĂ, preferabil lângă mine. Dar și dacă n-ai fi fost lângă mine tot fericită te voiam. Ești cumva asa... un suflet fără intenții ascunse. Vreau să fiu lângă tine să te protejez.</p>-->
+                </div>
+                <!-- Replace with your own GitHub image -->
+                <img src="https://raw.githubusercontent.com/Zarniiiiiiiii/AnniePoze/master/446233057_1784744808683656_7743316969018597859_n.jpg" 
+                     alt="Summer festival" 
+                     class="memory-img"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x320?text=Our+Love+Story';" />
+                <div class="love-note">
+                    <p> În acești 5 ani, am învățat că iubirea adevărată nu se măsoară în zile, ci în clipe de neuitat. Și cu tine, fiecare secundă a fost magică. Te iubesc din toată inima! 💖 </p>
+                </div>
+            </div>
+            
+            <!-- Memory 5 -->
+            <div class="memory left">
+                <div class="date"></div>
+                <h3 class="memory-title">My love for you isn't just forever—it's intensely, perfectly real.</h3>
+                <div class="memory-content">
+                  <!--  <p>Our matching costumes were a hit! Everyone said we were the cutest couple at the party. Remember how we practiced our dance routine for weeks?</p>-->
+                </div>
+                <!-- Replace with your own GitHub image -->
+                <img src="https://raw.githubusercontent.com/Zarniiiiiiiii/AnniePoze/master/284577475_2834747036831778_1893053915195071933_n.jpg" 
+                     alt="Halloween costumes" 
+                     class="memory-img"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x320?text=Our+Love+Story';" />
+                <div class="love-note">
+                    <p> 5 ani de zile în care ai făcut viața mea mai frumoasă. Ești raza mea de soare, zâmbetul meu și motivul pentru care inima mi bate mai puternic. Să ne iubim veșnic! 🌟 </p>
+                </div>
+            </div>
+            
+            
+                </div>
+            </div>
+        </div>
+        
+        <!-- Playlist Section -->
+        <div class="playlist">
+            <h2>Our Playlist</h2>
+            <p>The soundtrack of our love story</p>
+            
+            <div class="songs">
+                <!-- Song 1 - Customize with your own special songs -->
+                <div class="song">
+                    <div class="song-title">SWIM</div>
+                    <div class="song-artist">Chase Atlantic</div>
+                    <p>"The water's getting colder, let me in your ocean, swim..."</p>
+                </div>
+                
+                <!-- Song 2 -->
+                <div class="song">
+                    <div class="song-title">Come Home</div>
+                    <div class="song-artist">Jace June</div>
+                    <p>"So, baby, come home
+                        I need you to hold me
+                        'Cause it's gettin' cold
+                        And it's gettin' stormy..."</p>
+                </div>
+                
+                <!-- Song 3 -->
+                <div class="song">
+                    <div class="song-title">Back to friends</div>
+                    <div class="song-artist">Sombr</div>
+                    <p>"It was last December
+                        You were layin' on my chest
+                        I still remember
+                        I was scared to take a breath, didn't want you to move your head..."</p>
+                </div>
+                
+                <!-- Song 4 
+                <div class="song">
+                    <div class="song-title">At Last</div>
+                    <div class="song-artist">Etta James</div>
+                    <p>"You smiled, and then the spell was cast..."</p>
+                </div>-->
+                
+                <!-- Song 5 -->
+                <div class="song">
+                    <div class="song-title">Unndressed</div>
+                    <div class="song-artist">Sombr</div>
+                    <p>"I don't want the children of another man
+                        To have the eyes of the girl I won't forget..."</p>
+                </div>
+                
+                <!-- Song 6 -->
+                <div class="song">
+                    <div class="song-title">Little Talks</div>
+                    <div class="song-artist">Of Monsters and Men</div>
+                    <p>"Now wait, wait, wait for me, please hang around
+                        I'll see you when I fall asleep..."</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Future Message Section -->
+        <div class="future-message">
+            <!-- Decorative floating hearts -->
+            <div class="heart-decoration heart-1">❤️</div>
+            <div class="heart-decoration heart-2">❤️</div>
+            <div class="heart-decoration heart-3">❤️</div>
+            
+            <h2>Our Future Together</h2>
+            <p>Iubita mea,</p>
+            <p>Iubito,</p> 
+            <p>Astăzi împlinim 5 ani împreună. Cinci ani de zile în care ai făcut viața mea mai frumoasă, mai luminoasă și plină de sens. Fiecare moment alături de tine a fost o comoară, iar inima mea știe că alături de tine este acasă.</p> 
+            <p>Îți mulțumesc pentru răbdarea ta, pentru bunătatea ta și pentru dragostea pe care mi-o oferi în fiecare zi. Îți mulțumesc că ești alături de mine atunci când râdem, dar și atunci când trecem prin momente mai grele. Împreună am construit ceva frumos, și sunt atât de recunoscător că tu ești persoana cu care pot să împărtășesc viața.</p> 
+            <p>Te iubesc pentru felul în care mă asculți, pentru modul în care mă înțelegi și pentru că ești mereu acolo, cu inima deschisă. Abia aștept să continuăm această călătorie împreună, să ne împlinim visele și să ne iubim din ce în ce mai mult.</p> 
+            <p>Cu toată dragostea mea,</p> 
+            <p>George</p>
+        </div>
+        
+        <!-- Interactive button -->
+        <a href="#" class="btn">I Love You ❤️</a>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>Made with love for you</p>
+    </footer>
+    
+    <script>
+        // Add interactive elements and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create hearts animation when the love button is clicked
+            const loveButton = document.querySelector('.btn');
+            loveButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Create multiple floating hearts
+                for (let i = 0; i < 20; i++) {
+                    createHeart();
+                }
+                
+                // Show a sweet message after a short delay
+                setTimeout(() => {
+                    alert('I love you to the moon and back! Happy Anniversary! ❤️');
+                }, 1000);
+            });
+            
+            // Function to create and animate a single floating heart
+            function createHeart() {
+                // Create a new heart element
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.style.position = 'fixed';
+                heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.top = window.innerHeight + 'px';
+                heart.style.opacity = '1';
+                heart.style.transition = 'all ' + (Math.random() * 3 + 2) + 's ease-out';
+                heart.style.zIndex = '1000';
+                
+                // Add the heart to the page
+                document.body.appendChild(heart);
+                
+                // Start the animation
+                setTimeout(() => {
+                    heart.style.top = '0px';
+                    heart.style.opacity = '0';
+                }, 100);
+                
+                // Remove the heart after animation completes
+                setTimeout(() => {
+                    document.body.removeChild(heart);
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
